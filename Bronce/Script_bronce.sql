@@ -14,16 +14,17 @@ USE DWH_SALES_DB
 	-- Silver
 	-- Gold
 
---CREATE SCHEMA bronce;
+--	CREATE SCHEMA bronce;
 --GO
---CREATE SCHEMA silver;
+--	CREATE SCHEMA silver;
 --GO
---CREATE SCHEMA gold;
+--	CREATE SCHEMA gold;
 --GO
 
 -- Procesos almacenados
 
-DROP PROCEDURE bronce_layer
+DROP PROCEDURE DWH_SALES_DB.bronce_layer;
+
 CREATE PROCEDURE bronce_layer AS
 BEGIN
 		-- Creacion de tablas
@@ -40,7 +41,7 @@ BEGIN
 		CREATE TABLE bronce.CRM_CUSTOMER_INFO(
 			cst_id INT,
 			cst_key VARCHAR(100),
-			cst_FIRSTROWname VARCHAR(100),
+			cst_firstname VARCHAR(100),
 			cst_lastname VARCHAR(100),
 			cst_marital_status VARCHAR(10),
 			cst_gndr VARCHAR(10),
@@ -61,7 +62,6 @@ BEGIN
 
 
 		-- Informacion de producto
-
 
 		PRINT '>> Create Table IF NOT EXISTS  CRM_PRODUCT_INFO ---------------------'
 
@@ -184,3 +184,4 @@ END
 EXEC bronce_layer;
 
  
+
