@@ -1,3 +1,7 @@
+# ETL SQL
+
+El proceso ETL fue desarrollado en SQL mediante procesos almacenados. En la capa Bronce se realiza la extracción de datos desde los sistemas de información CRM y ERM, cargándolos en su forma más cruda. En la capa Silver, los datos pasan por procesos de limpieza, transformación y estandarización para garantizar su calidad e integridad. Finalmente, en la capa Gold se aplica un modelo de arquitectura en estrella, con el propósito de aprovisionar información confiable y optimizada al equipo de analítica.
+
 # Proyecto DWH_SALES_DB - Capa Bronce
 
 ## Descripción
@@ -5,10 +9,8 @@
 La **fase Bronce** del proyecto corresponde a la **ingesta inicial de datos crudos** provenientes de sistemas **CRM** y **ERP**.  
 Estos datos se cargan en un **Data Warehouse** bajo el esquema `bronce` y se organizan en tablas específicas sin aplicar transformaciones complejas, manteniendo el formato original de las fuentes.
 
----
-<img width="722" height="725" alt="image" src="https://github.com/user-attachments/assets/78c6d912-8d21-473c-89be-a2f0f0f8fc89" />
 
----
+<img width="722" height="725" alt="image" src="https://github.com/user-attachments/assets/78c6d912-8d21-473c-89be-a2f0f0f8fc89" />
 
 ## Creación de Base de Datos y Esquemas
 
@@ -22,20 +24,17 @@ USE DWH_SALES_DB;
 CREATE SCHEMA bronce;
 CREATE SCHEMA silver;
 CREATE SCHEMA gold;
-
 ```
 
 Procedimiento Almacenado: bronce_layer
 
 <img width="167" height="748" alt="image" src="https://github.com/user-attachments/assets/db53a10d-19c3-4b1a-8a67-dc76f421a78f" />
 
-
 Se implementa el procedimiento almacenado bronce_layer encargado de:
 
 Crear tablas en el esquema bronce.
 
 <img width="169" height="758" alt="image" src="https://github.com/user-attachments/assets/9bca96fe-0610-44d2-8980-9f081b736952" />
-
 
 Truncar tablas (en caso de existir datos previos).
 
@@ -45,79 +44,81 @@ Ejemplo de ejecución:
 
 EXEC bronce_layer;
 
-
 Tablas creadas en la Capa Bronce
 1. CRM_CUSTOMER_INFO
 
 Contiene información básica de clientes provenientes del CRM.
 
-Columna	Tipo de Dato	Descripción
-cst_id	INT	Identificador del cliente
-cst_key	VARCHAR(100)	Llave única del cliente
-cst_firstname	VARCHAR(100)	Nombre
-cst_lastname	VARCHAR(100)	Apellido
-cst_marital_status	VARCHAR(10)	Estado civil
-cst_gndr	VARCHAR(10)	Género
-cst_create_date	DATE	Fecha de creación en CRM
-
-
-
+| Columna              | Tipo de Dato   | Descripción                 |
+|----------------------|----------------|-----------------------------|
+| `cst_id`             | INT            | Identificador del cliente   |
+| `cst_key`            | VARCHAR(100)   | Llave única del cliente     |
+| `cst_firstname`      | VARCHAR(100)   | Nombre                      |
+| `cst_lastname`       | VARCHAR(100)   | Apellido                    |
+| `cst_marital_status` | VARCHAR(10)    | Estado civil                |
+| `cst_gndr`           | VARCHAR(10)    | Género                      |
+| `cst_create_date`    | DATE           | Fecha de creación en CRM    |
 
 2. CRM_PRODUCT_INFO
 
 Contiene información de productos registrados en CRM.
 
-Columna	Tipo de Dato	Descripción
-prd_id	INT	Identificador del producto
-prd_key	VARCHAR(100)	Llave del producto
-prd_nm	VARCHAR(100)	Nombre del producto
-prd_cost	INT	Costo asociado
-prd_line	VARCHAR(10)	Línea de producto
-prd_start_dt	DATE	Fecha de inicio
-prd_end_dt	DATE	Fecha de fin
+| Columna        | Tipo de Dato   | Descripción             |
+|----------------|----------------|-------------------------|
+| `prd_id`       | INT            | Identificador del producto |
+| `prd_key`      | VARCHAR(100)   | Llave del producto      |
+| `prd_nm`       | VARCHAR(100)   | Nombre del producto     |
+| `prd_cost`     | INT            | Costo asociado          |
+| `prd_line`     | VARCHAR(10)    | Línea de producto       |
+| `prd_start_dt` | DATE           | Fecha de inicio         |
+| `prd_end_dt`   | DATE           | Fecha de fin            |
 
 
 3. CRM_SALES_INFO
 
 Detalles de ventas registradas en CRM.
 
-Columna	Tipo de Dato	Descripción
-sls_ord_num	VARCHAR(100)	Número de orden de venta
-sls_prd_key	VARCHAR(100)	Producto vendido
-sls_cust_id	INT	Cliente asociado
-sls_order_dt	VARCHAR(50)	Fecha de orden (mal formateada)
-sls_ship_dt	VARCHAR(50)	Fecha de envío (mal formateada)
-sls_due_dt	VARCHAR(50)	Fecha de vencimiento (mal formateada)
-sls_sales	INT	Valor de la venta
-sls_quantity	INT	Cantidad vendida
-sls_price	INT	Precio unitario
+| Columna        | Tipo de Dato   | Descripción                     |
+|----------------|----------------|---------------------------------|
+| `sls_ord_num`  | VARCHAR(100)   | Número de orden de venta        |
+| `sls_prd_key`  | VARCHAR(100)   | Producto vendido                |
+| `sls_cust_id`  | INT            | Cliente asociado                |
+| `sls_order_dt` | VARCHAR(50)    | Fecha de orden *(mal formateada)* |
+| `sls_ship_dt`  | VARCHAR(50)    | Fecha de envío *(mal formateada)* |
+| `sls_due_dt`   | VARCHAR(50)    | Fecha de vencimiento *(mal formateada)* |
+| `sls_sales`    | INT            | Valor de la venta               |
+| `sls_quantity` | INT            | Cantidad vendida                |
+| `sls_price`    | INT            | Precio unitario                 |
 
 4. ERP_LOCALIDAD
 
 Contiene información de localización de clientes y operaciones.
 
-Columna	Tipo de Dato	Descripción
-CID	VARCHAR(100)	Identificador
-CNTRY	VARCHAR(100)	País
+| Columna | Tipo de Dato   | Descripción     |
+|---------|----------------|-----------------|
+| `CID`   | VARCHAR(100)   | Identificador   |
+| `CNTRY` | VARCHAR(100)   | País            |
 
 5. ERP_PRODUCTS
 
 Catálogo de productos del ERP.
 
-Columna	Tipo de Dato	Descripción
-ID	VARCHAR(30)	Identificador producto
-CAT	VARCHAR(100)	Categoría
-SUBCAT	VARCHAR(100)	Subcategoría
-MAINTENANCE	VARCHAR(10)	Indicador mantenimiento
+| Columna       | Tipo de Dato   | Descripción            |
+|---------------|----------------|------------------------|
+| `ID`          | VARCHAR(30)    | Identificador producto |
+| `CAT`         | VARCHAR(100)   | Categoría              |
+| `SUBCAT`      | VARCHAR(100)   | Subcategoría           |
+| `MAINTENANCE` | VARCHAR(10)    | Indicador mantenimiento |
 
 6. ERP_CUSTOMER
 
 Información de clientes en ERP.
 
-Columna	Tipo de Dato	Descripción
-CID	VARCHAR(50)	Identificador cliente
-BDATE	DATE	Fecha de nacimiento
-GEN	VARCHAR(10)	Género
+| Columna | Tipo de Dato   | Descripción          |
+|---------|----------------|----------------------|
+| `CID`   | VARCHAR(50)    | Identificador cliente|
+| `BDATE` | DATE           | Fecha de nacimiento  |
+| `GEN`   | VARCHAR(10)    | Género               |
 
 
 **Silver**
@@ -427,6 +428,7 @@ Este modelo permite generar análisis en **Power BI** tales como:
 - Análisis demográfico (edad, género, localización).  
 
 ---
+# Pruebas
 
 ## Consultas de Validación
 
@@ -440,7 +442,6 @@ FROM gold.FACT_CRM_SALES_INFO;
 Validar consistencia de llaves entre dimensiones y hechos.
 
 Filtrar datos inválidos (ejemplo de fechas corruptas):
-
 
 SELECT * 
 FROM gold.FACT_CRM_SALES_INFO
