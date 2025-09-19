@@ -6,6 +6,9 @@ La **fase Bronce** del proyecto corresponde a la **ingesta inicial de datos crud
 Estos datos se cargan en un **Data Warehouse** bajo el esquema `bronce` y se organizan en tablas específicas sin aplicar transformaciones complejas, manteniendo el formato original de las fuentes.
 
 ---
+<img width="722" height="725" alt="image" src="https://github.com/user-attachments/assets/78c6d912-8d21-473c-89be-a2f0f0f8fc89" />
+
+---
 
 ## Creación de Base de Datos y Esquemas
 
@@ -24,9 +27,15 @@ CREATE SCHEMA gold;
 
 Procedimiento Almacenado: bronce_layer
 
+<img width="167" height="748" alt="image" src="https://github.com/user-attachments/assets/db53a10d-19c3-4b1a-8a67-dc76f421a78f" />
+
+
 Se implementa el procedimiento almacenado bronce_layer encargado de:
 
 Crear tablas en el esquema bronce.
+
+<img width="169" height="758" alt="image" src="https://github.com/user-attachments/assets/9bca96fe-0610-44d2-8980-9f081b736952" />
+
 
 Truncar tablas (en caso de existir datos previos).
 
@@ -112,6 +121,8 @@ GEN	VARCHAR(10)	Género
 
 
 **Silver**
+
+<img width="176" height="755" alt="image" src="https://github.com/user-attachments/assets/493c50d5-55bb-4523-a697-108268dcf850" />
 
 # Proyecto DWH_SALES_DB - Capa Silver
 
@@ -292,6 +303,8 @@ En esta capa, se parte de los datos crudos almacenados en la capa **Bronce** y s
 
 
 GOLD
+
+<img width="203" height="541" alt="image" src="https://github.com/user-attachments/assets/bd254853-99e7-418e-a69b-d8a6a9d4f44e" />
 
 # Proyecto DWH_SALES_DB - Capa Gold
 
